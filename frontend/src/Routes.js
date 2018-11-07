@@ -4,12 +4,14 @@ import ListingContainer from './ListingContainer';
 import ProfileForm from './ProfileForm';
 import CompanyListing from './CompanyListing';
 import HomeContainer from './HomeContainer';
+import LoginForm from './LoginForm';
 import NotFound from './NotFound';
 
 class Routes extends Component {
   render() {
     return (
       <Switch>
+        <Route exact path="/login" render={props => <LoginForm {...props} />} />
         <Route
           exact
           path="/companies"
