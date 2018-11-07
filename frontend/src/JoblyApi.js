@@ -32,8 +32,37 @@ class JoblyApi {
     }
   }
 
+  /** COMPANY METHODS */
+  static async getAllCompanies() {
+    let res = await this.request(`companies`);
+    return res.companies;
+  }
+
   static async getCompany(handle) {
     let res = await this.request(`companies/${handle}`);
     return res.company;
   }
+  //TODO:Creating and Editing companies
+  // static async createCompany() {}
+
+  // static async editCompany(handle) {}
+
+  /** JOB METHODS */
+  static async getAllJobs() {
+    let res = await this.request(`jobs`);
+    return res.jobs;
+  }
+
+  static async getJob(id) {
+    let res = await this.request(`companies/${id}`);
+    return res.job;
+  }
+  //TODO: Creating and Editing jobs
+  // static async createJob() {}
+
+  // static async editJob() {}
+
+  /** USER/APPLICATION METHODS */
 }
+
+export default JoblyApi;

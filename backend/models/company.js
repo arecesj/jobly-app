@@ -1,11 +1,9 @@
-const db = require("../db");
-const sqlForPartialUpdate = require("../helpers/partialUpdate");
-
+const db = require('../db');
+const sqlForPartialUpdate = require('../helpers/partialUpdate');
 
 /** Related functions for companies. */
 
 class Company {
-
   /** Find all companies (can filter on terms in data). */
 
   static async findAll(data) {
@@ -14,7 +12,7 @@ class Company {
     let queryValues = [];
 
     if (+data.min_employees >= +data.max_employees) {
-      throw new Error("Min employees must be less than max employees");
+      throw new Error('Min employees must be less than max employees');
     }
 
     // For each possible search term, add to whereExpressions and
@@ -36,12 +34,13 @@ class Company {
     }
 
     if (whereExpressions.length > 0) {
-      baseQuery += " WHERE ";
+      baseQuery += ' WHERE ';
     }
 
     // Finalize query and return results
 
-    let finalQuery = baseQuery + whereExpressions.join(" AND ") + " ORDER BY name";
+    let finalQuery =
+      baseQuery + whereExpressions.join(' AND ') + ' ORDER BY name';
     const companiesRes = await db.query(finalQuery, queryValues);
     return companiesRes.rows;
   }
@@ -50,24 +49,26 @@ class Company {
 
   static async findOne(handle) {
     const companyRes = await db.query(
-        `SELECT handle, name, num_employees, description, logo_url
+      `SELECT handle, name, num_employees, description, logo_url
             FROM companies
             WHERE handle = $1`,
-        [handle]);
+      [handle]
+    );
 
     const company = companyRes.rows[0];
 
     if (!company) {
       const error = new Error(`There exists no company '${handle}'`);
-      error.status = 404;   // 404 NOT FOUND
+      error.status = 404; // 404 NOT FOUND
       throw error;
     }
 
     const jobsRes = await db.query(
-        `SELECT id, title, salary, equity
+      `SELECT id, title, salary, equity
             FROM jobs 
             WHERE company_handle = $1`,
-        [handle]);
+      [handle]
+    );
 
     company.jobs = jobsRes.rows;
 
@@ -78,30 +79,33 @@ class Company {
 
   static async create(data) {
     const duplicateCheck = await db.query(
-        `SELECT handle 
+      `SELECT handle 
             FROM companies 
             WHERE handle = $1`,
-        [data.handle]);
+      [data.handle]
+    );
 
     if (duplicateCheck.rows[0]) {
       let duplicateError = new Error(
-          `There already exists a company with handle '${data.handle}`);
+        `There already exists a company with handle '${data.handle}`
+      );
       duplicateError.status = 409; // 409 Conflict
-      throw duplicateError
+      throw duplicateError;
     }
 
     const result = await db.query(
-        `INSERT INTO companies 
+      `INSERT INTO companies 
               (handle, name, num_employees, description, logo_url)
             VALUES ($1, $2, $3, $4, $5) 
             RETURNING handle, name, num_employees, description, logo_url`,
-        [
-          data.handle,
-          data.name,
-          data.num_employees,
-          data.description,
-          data.logo_url
-        ]);
+      [
+        data.handle,
+        data.name,
+        data.num_employees,
+        data.description,
+        data.logo_url
+      ]
+    );
 
     return result.rows[0];
   }
@@ -116,11 +120,11 @@ class Company {
    */
 
   static async update(handle, data) {
-    let {query, values} = sqlForPartialUpdate(
-        "companies",
-        data,
-        "handle",
-        handle
+    let { query, values } = sqlForPartialUpdate(
+      'companies',
+      data,
+      'handle',
+      handle
     );
 
     const result = await db.query(query, values);
@@ -139,10 +143,11 @@ class Company {
 
   static async remove(handle) {
     const result = await db.query(
-        `DELETE FROM companies 
+      `DELETE FROM companies 
           WHERE handle = $1 
           RETURNING handle`,
-        [handle]);
+      [handle]
+    );
 
     if (result.rows.length === 0) {
       let notFound = new Error(`There exists no company '${handle}`);
@@ -151,6 +156,5 @@ class Company {
     }
   }
 }
-
 
 module.exports = Company;

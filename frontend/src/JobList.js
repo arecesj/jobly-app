@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 // import './App.css';
 
-class CompanyListing extends Component {
+class JobList extends Component {
   render() {
     return (
-      <div className="CompanyListing">
-        <h1>Jobly</h1>
+      <div className="JobList">
+        <h1>Jobly! Job Listings</h1>
         <h3>All the jobs in one, convenient place.</h3>
         <h2>Welcome back!</h2>
       </div>
@@ -13,4 +13,4 @@ class CompanyListing extends Component {
   }
 }
 
-export default CompanyListing;
+export default JobList;

@@ -5,19 +5,25 @@ class Nav extends Component {
   static defaultProps = {
     links: ['companies', 'jobs', 'profile', 'logout']
   };
-
+  // TODO: Refactor to hardcode the navbar
   render() {
-    const navbar = this.props.links.map(link => (
-      <NavLink exact to={`/${link}`}>
-        {link.toUpperCase()}
-      </NavLink>
-    ));
     return (
       <nav>
         <NavLink exact to="/">
           Home
         </NavLink>
-        {navbar}
+        <NavLink exact to="/companies">
+          Companies
+        </NavLink>
+        <NavLink exact to="/jobs">
+          Jobs
+        </NavLink>
+        <NavLink exact to="/profile">
+          Profile
+        </NavLink>
+        <NavLink exact to="/logout">
+          logout
+        </NavLink>
       </nav>
     );
   }
