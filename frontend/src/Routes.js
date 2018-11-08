@@ -11,7 +11,13 @@ class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/login" render={props => <LoginForm {...props} />} />
+        <Route
+          exact
+          path="/login"
+          render={props => (
+            <LoginForm {...props} loginUser={this.props.loginUser} />
+          )}
+        />
         <Route
           exact
           path="/companies"

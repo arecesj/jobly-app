@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import { decode } from 'jsonwebtoken';
 
 class LoginForm extends Component {
   static defaultProps = {
@@ -20,8 +21,13 @@ class LoginForm extends Component {
     this.setState({ [evt.target.name]: evt.target.value });
   }
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault();
+    await this.props.loginUser({
+      username: this.state.username,
+      password: this.state.password
+    });
+
     //TODO: Add API stuff. Roll tide
     //use models to auth and send existing state?
     //await make server call axios
@@ -34,7 +40,7 @@ class LoginForm extends Component {
   render() {
     // const response =
     return (
-      <form actionclassName="Login" onSubmit={this.handleSubmit}>
+      <form className="Login" onSubmit={this.handleSubmit}>
         <label htmlFor="username">{this.props.username}</label>
         <input
           type="text"
