@@ -48,6 +48,7 @@ class JoblyApi {
     let res = await this.request('companies', data);
     return res.companies;
   }
+
   //TODO:Creating and Editing companies
   // static async createCompany() {}
 
@@ -62,6 +63,12 @@ class JoblyApi {
   static async getJob(id) {
     let res = await this.request(`companies/${id}`);
     return res.job;
+  }
+
+  static async getJobViaSearch(data) {
+    console.log('what does data look like atm?', data);
+    let res = await this.request('jobs', data);
+    return res.jobs;
   }
   //TODO: Creating and Editing jobs
   // static async createJob() {}
