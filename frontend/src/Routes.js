@@ -15,7 +15,11 @@ class Routes extends Component {
           exact
           path="/login"
           render={props => (
-            <LoginForm {...props} loginUser={this.props.loginUser} />
+            <LoginForm
+              {...props}
+              loginUser={this.props.loginUser}
+              createUser={this.props.createUser}
+            />
           )}
         />
         <Route

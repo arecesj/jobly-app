@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Nav from './Nav';
 import Routes from './Routes';
 import JoblyApi from './JoblyApi';
 import { decode } from 'jsonwebtoken';
 import './App.css';
+import { NavLink } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class App extends Component {
       currUser: null
     };
     this.loginUser = this.loginUser.bind(this);
+    this.createUser = this.createUser.bind(this);
   }
 
   async loginUser(data) {
@@ -20,22 +21,60 @@ class App extends Component {
     await this.getCurrUser();
   }
 
+  async createUser(data) {
+    const token = await JoblyApi.createUser(data);
+    localStorage.setItem('token', token);
+    await this.getCurrUser();
+  }
+
   async getCurrUser() {
     const payload = decode(localStorage.getItem('token'));
-    console.log('decoded paload', payload);
     const getCurrUser = await JoblyApi.getUser(payload.username);
     this.setState({ currUser: getCurrUser });
-    console.log(this.state.currUser);
-
-    //make a backend req to get the user
-    //once we have the user, we want to hydrate this.state.currUser
   }
 
   render() {
+    let nav;
+    if (this.state.currUser === null) {
+      nav = (
+        <nav>
+          <NavLink exact to="/">
+            Home
+          </NavLink>
+          <NavLink exact to="/login">
+            Login
+          </NavLink>
+        </nav>
+      );
+    } else {
+      nav = (
+        <nav>
+          <NavLink exact to="/">
+            Home
+          </NavLink>
+          <NavLink exact to="/companies">
+            Companies
+          </NavLink>
+          <NavLink exact to="/jobs">
+            Jobs
+          </NavLink>
+          <NavLink exact to="/profile">
+            Profile
+          </NavLink>
+          <NavLink exact to="/logout">
+            logout
+          </NavLink>
+        </nav>
+      );
+    }
     return (
       <div className="App">
-        <Nav />
-        <Routes loginUser={this.loginUser} currUser={this.state.currUser} />
+        {nav}
+        <Routes
+          loginUser={this.loginUser}
+          currUser={this.state.currUser}
+          createUser={this.createUser}
+        />
       </div>
     );
   }
