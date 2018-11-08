@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 class Nav extends Component {
-  static defaultProps = {
-    links: ['companies', 'jobs', 'profile', 'logout']
-  };
-  // TODO: Refactor to hardcode the navbar
   render() {
     return (
       <nav>

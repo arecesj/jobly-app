@@ -22,6 +22,7 @@ class LoginForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
+    //TODO: Add API stuff. Roll tide
     //use models to auth and send existing state?
     //await make server call axios
     //if server call is right, redirect
