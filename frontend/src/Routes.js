@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import CompanyList from './CompanyList';
 import JobList from './JobList';
 import ProfileForm from './ProfileForm';
-import CompanyCard from './CompanyCard';
+import Company from './Company';
 import HomeContainer from './HomeContainer';
 import LoginForm from './LoginForm';
 
@@ -20,7 +20,7 @@ class Routes extends Component {
         <Route
           exact
           path="/companies/:handle"
-          render={props => <CompanyCard {...props} />}
+          render={props => <Company {...props} />}
         />
         <Route exact path="/jobs" render={props => <JobList {...props} />} />
         <Route
