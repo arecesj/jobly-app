@@ -82,7 +82,7 @@ class JoblyApi {
     return res.token;
   }
   static async createUser(data) {
-    let res = await this.request('login', data, 'post');
+    let res = await this.request('users', data, 'post');
     return res.token;
   }
 
