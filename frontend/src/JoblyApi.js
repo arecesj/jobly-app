@@ -42,6 +42,12 @@ class JoblyApi {
     let res = await this.request(`companies/${handle}`);
     return res.company;
   }
+
+  static async getCompanyViaSearch(data) {
+    console.log('what does data look like atm?', data);
+    let res = await this.request('companies', data);
+    return res.companies;
+  }
   //TODO:Creating and Editing companies
   // static async createCompany() {}
 

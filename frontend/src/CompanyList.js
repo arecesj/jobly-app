@@ -6,15 +6,30 @@ class CompanyList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      companies: []
+      companies: [],
+      search: ''
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  async handleSubmit(evt) {
+    evt.preventDefault();
+    const searchRes = await JoblyApi.getCompanyViaSearch({
+      search: this.state.search
+    });
+    this.setState({ companies: searchRes, search: '' });
+  }
+
+  handleChange(evt) {
+    this.setState({ [evt.target.name]: evt.target.value });
   }
 
   async componentDidMount() {
-    let getCompanies = await JoblyApi.getAllCompanies();
-    this.setState({ companies: [...getCompanies] });
+    const getCompanies = await JoblyApi.getAllCompanies();
+    this.setState({ companies: getCompanies });
   }
-  //TODO: Create Loading functionality so it all renders at the same time
+
   render() {
     let companies;
     if (this.state.companies.length > 0) {
@@ -31,8 +46,13 @@ class CompanyList extends Component {
         <h1>Jobly! Company Listings</h1>
         <div className="Search">
           {/* TODO: Make this actually work pls */}
-          <form action="">
-            <input type="text" />
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              name="search"
+              value={this.state.search}
+              onChange={this.handleChange}
+            />
             <button>Search</button>
           </form>
         </div>
