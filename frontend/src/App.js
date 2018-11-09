@@ -14,6 +14,7 @@ class App extends Component {
     this.loginUser = this.loginUser.bind(this);
     this.logout = this.logout.bind(this);
     this.createUser = this.createUser.bind(this);
+    this.editUser = this.editUser.bind(this);
   }
 
   async loginUser(data) {
@@ -27,6 +28,8 @@ class App extends Component {
     localStorage.setItem('token', token);
     await this.getCurrUser();
   }
+
+  async editUser(data) {}
 
   async getCurrUser() {
     const payload = decode(localStorage.getItem('token'));
@@ -84,6 +87,7 @@ class App extends Component {
           loginUser={this.loginUser}
           currUser={this.state.currUser}
           createUser={this.createUser}
+          editUser={this.editUser}
         />
       </div>
     );

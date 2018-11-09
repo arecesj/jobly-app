@@ -36,14 +36,14 @@ class Routes extends Component {
         <Route
           exact
           path="/profile"
-          render={props => <ProfileForm {...props} />}
+          render={props => (
+            <ProfileForm
+              {...props}
+              currUser={this.props.currUser}
+              editUser={this.props.editUser}
+            />
+          )}
         />
-        {/* TODO: LOGOUT */}
-        {/* <Route
-          exact
-          path="/logout"
-          render={props => <HomeContainer {...props} />}
-        /> */}
         <Route exact path="/" render={() => <HomeContainer />} />
         <Redirect to="/" />
       </Switch>
