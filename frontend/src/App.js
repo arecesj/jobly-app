@@ -3,7 +3,7 @@ import Routes from './Routes';
 import JoblyApi from './JoblyApi';
 import { decode } from 'jsonwebtoken';
 import './App.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class App extends Component {
       currUser: null
     };
     this.loginUser = this.loginUser.bind(this);
+    this.logout = this.logout.bind(this);
     this.createUser = this.createUser.bind(this);
   }
 
@@ -31,6 +32,14 @@ class App extends Component {
     const payload = decode(localStorage.getItem('token'));
     const getCurrUser = await JoblyApi.getUser(payload.username);
     this.setState({ currUser: getCurrUser });
+  }
+
+  logout(evt) {
+    evt.preventDefault();
+    this.setState({ currUser: null }, () => {
+      localStorage.removeItem('token');
+      this.props.history.push('/');
+    });
   }
 
   render() {
@@ -61,7 +70,7 @@ class App extends Component {
           <NavLink exact to="/profile">
             Profile
           </NavLink>
-          <NavLink exact to="/logout">
+          <NavLink to="/" onClick={this.logout}>
             logout
           </NavLink>
         </nav>
@@ -69,6 +78,7 @@ class App extends Component {
     }
     return (
       <div className="App">
+        {/* <pre>{JSON.stringify(this.props, null, 4)}</pre> */}
         {nav}
         <Routes
           loginUser={this.loginUser}
@@ -80,4 +90,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
