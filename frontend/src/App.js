@@ -29,7 +29,10 @@ class App extends Component {
     await this.getCurrUser();
   }
 
-  async editUser(data) {}
+  async editUser(username, data) {
+    const editedUser = await JoblyApi.editUser(username, data);
+    this.setState({ currUser: editedUser });
+  }
 
   async getCurrUser() {
     const payload = decode(localStorage.getItem('token'));

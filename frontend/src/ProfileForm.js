@@ -5,8 +5,11 @@ class ProfileForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.props.currUser,
-      password: ''
+      username: this.props.currUser.username,
+      first_name: this.props.currUser.first_name,
+      last_name: this.props.currUser.last_name,
+      email: this.props.currUser.email,
+      photo_url: this.props.currUser.photo_url
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -14,8 +17,10 @@ class ProfileForm extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    console.log(this.props.currUser);
-    this.props.editUser(this.props.currUser.username);
+    const dataObj = { ...this.state };
+    delete dataObj.username;
+    await this.props.editUser(this.state.username, dataObj);
+    this.props.history.push('/companies');
   }
 
   async handleChange(evt) {
@@ -44,7 +49,7 @@ class ProfileForm extends Component {
             type="text"
             id="firstName"
             name="firstName"
-            value={this.state.firstName}
+            value={this.state.first_name}
             onChange={this.handleChange}
           />
           <br />
@@ -53,7 +58,7 @@ class ProfileForm extends Component {
             type="text"
             id="lastName"
             name="lastName"
-            value={this.state.lastName}
+            value={this.state.last_name}
             onChange={this.handleChange}
           />
           <br />
